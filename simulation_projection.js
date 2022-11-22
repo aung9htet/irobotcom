@@ -1,20 +1,24 @@
 class Braintenberg_Movement {
     constructor(canvas, img) {
+        // where to draw
         this.canvas = document.getElementById(canvas);
         this.ctx = this.canvas.getContext("2d");
         this.img = document.getElementById(img);
+        // get middle of canvas
         this.middle_x= this.canvas.width/2 - 12;
         this.middle_y = this.canvas.height/2 - 8;
+        // initiate starting position and speed
         this.x = 0;
         this.y = 0;
         this.theta = 0;
         this.angular_velocity = 0;
         this.speed = 0;
-        this.movement_rate = 0;
+        // settings for the environment
+        this.movement_rate = 0; // how often to run
         this.radius = 5;
         this.circle_render = 10; // how round it should be (higher is better)
         this.canvas.style = "background-color: #90EE90;";
-        this.circle_positions = [[30, 30], [-30,30]];
+        this.circle_positions = [[30, 30], [-30,30]];   // position of food
         this.food_status = false; // check if food is there or not
         this.redraw_image();
     }
@@ -115,14 +119,12 @@ setInterval(function () {
     braitenberg_agent.move_image();
     braitenberg_agent.check_food();
     var msg = braitenberg_agent.get_data();
-    console.log(msg);
-    window.parent.postMessage(msg);
+    parent.postMessage(msg, "*");
 }, 1000);
 
 window.addEventListener("message", (event) => {
     const command = event.data.split(",")[0];
     const args = parseFloat(event.data.split(",")[1]);
-    console.log(event.data);
     if (command == "turn_speed") {
         braitenberg_agent.set_turn_speed(args);
     }
