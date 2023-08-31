@@ -54,7 +54,7 @@ function disconnect() {
 init();
 
 window.addEventListener("message", (event) => {
-  console.log(event.data);
+  console.log("Data received: " + event.data);
   if (event.data == "reset") {
       connect();
   } else {
