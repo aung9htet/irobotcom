@@ -23,7 +23,7 @@ function init() {
 }
 
 function connect() {
-  const ipInput = 'http://localhost:1999/session?url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/6_binary/worlds/ned.wbt'
+  const ipInput = 'http://localhost:1999/session?url=../worlds/koala.wbt'
   const defaultThumbnail = 'https://cyberbotics.com/wwi/R2023b/images/loading/default_thumbnail.png';
   const streamingMode = 'x3d' //x3d or mjpeg
   const webotsView = document.getElementsByTagName('webots-view')[0];
