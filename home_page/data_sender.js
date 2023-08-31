@@ -2,6 +2,11 @@
 
 function turn_speed( val ){
     console.log("Turn speed");
+
+    const webotsView = document.getElementsByTagName('webots-view')[0];
+
+
+    webotsView.sendMessage("Hello")
 }
 
 
