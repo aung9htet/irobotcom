@@ -1,0 +1,71 @@
+version: "3.8"
+
+volumes:
+  controller_data:
+
+
+services:
+  webots:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - WEBOTS_DEFAULT_IMAGE=$IMAGE
+        - PROJECT_PATH=$PROJECT_PATH
+        - MAKE=$MAKE
+    command: $WEBOTS
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+    environment:
+      - DISPLAY=$DISPLAY
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    ports:
+      - '$PORT:$PORT'
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /dev/dri:/dev/dri:rw
+      - /tmp/webots-$PORT/ipc:/tmp/webots-$PORT/ipc:rw
+
+  controller:
+    depends_on:
+      - webots
+    build:
+      context: ./controllers
+      dockerfile: Dockerfile
+      args:
+        - WEBOTS_CONTROLLER_URL=participant
+        - PROJECT_PATH=$PROJECT_PATH
+    command: python3 /usr/local/remote_controller_launcher.py
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - WEBOTS_STDOUT_REDIRECT=1
+      - WEBOTS_STDERR_REDIRECT=1
+      - PORT=$PORT
+    tty: true # Allows the controller to send its output to Webots' console
+    volumes:
+      - /dev/dri:/dev/dri:rw
+      - /tmp/webots-$PORT/ipc/participant:/tmp/webots-$PORT/ipc/participant:rw
+      - controller_data:/usr/local/$THEIA_VOLUME:rw
+
+  theia:
+    depends_on:
+      - controller
+    image: benjamindeleze/theia-test:test3
+    ports:
+      - $THEIA_PORT:3000
+    volumes:
+      - controller_data:/home/project/webots-project:rw

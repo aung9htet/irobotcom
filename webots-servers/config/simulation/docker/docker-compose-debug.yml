@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  webots:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - WEBOTS_DEFAULT_IMAGE=$IMAGE
+        - PROJECT_PATH=$PROJECT_PATH
+        - MAKE=$MAKE
+    command: $WEBOTS
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+    environment:
+      - DISPLAY=$DISPLAY
+      - XAUTHORITY=$XAUTHORITY
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    network_mode: host # docker run --network=host /!\ not secure
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    volumes:
+      - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}:ro
+      - /dev/dri:/dev/dri:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
