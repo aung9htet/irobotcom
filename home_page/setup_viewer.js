@@ -15,9 +15,11 @@ if (mobileDevice) {
 }
 
 function init() {
-  connectButton = document.getElementById('connect-button');
+  // connectButton = document.getElementById('connect-button');
 
-  connectButton.onclick = connect;
+  // connectButton.onclick = connect;
+
+  console.log("Initializing viewer");
 }
 
 function connect() {
@@ -34,16 +36,17 @@ function connect() {
 }
 
 function onConnect() {
-  connectButton.value = 'Disconnect';
-  connectButton.onclick = disconnect;
-  connectButton.disabled = false;
+  console.log("Connection successful")
+  // connectButton.value = 'Disconnect';
+  // connectButton.onclick = disconnect;
+  // connectButton.disabled = false;
 }
 
 function onDisconnect() {
-  connectButton.value = 'Connect';
-  connectButton.onclick = connect;
+  // connectButton.value = 'Connect';
+  // connectButton.onclick = connect;
 
-  connectButton.disabled = false;
+  // connectButton.disabled = false;
 }
 
 function disconnect() {
@@ -51,3 +54,30 @@ function disconnect() {
 }
 
 init();
+
+window.addEventListener("message", (event) => {
+  console.log(event.data);
+  if (event.data == "reset") {
+      connect();
+  } else {
+      const command = event.data.split(",")[0];
+      const args = parseFloat(event.data.split(",")[1]);
+      if (command == "turn_speed") {
+          turn_speed( args );
+      }
+      else if (command == "speed") {
+          speed( args )
+      }
+      else if (command == "control_time") {
+          console.log("Control time");
+      }
+      else if (command == "temperature_gradient") {
+        change_temperature( args )
+          // braitenberg_agent.temperature_gradient = args;
+      }
+      else if (command == "temperature_intercept") {
+        change_intecept(args)
+          //braitenberg_agent.temperature_intercept = args;
+      }
+  }
+});

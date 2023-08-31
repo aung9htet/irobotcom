@@ -11,11 +11,11 @@
 
   <body>
     <header>
-      <div class="title-container">
+      <!-- <div class="title-container">
         <h1>Webots Streaming Viewer</h1>
         <input style="position:absolute; left:80%; top:35%; background-color: #a0a6ae; color: #404c5c
         ;" id="connect-button" type="button" value="Connect"/>
-      </div>
+      </div> -->
       <!-- <div class="connect-container">
         <div class="grid-item"><p>Connect to:</p></div>
         <div class="grid-item">
@@ -39,6 +39,8 @@
       <webots-view></webots-view>
     </div>
     <script type="module" src="https://cyberbotics.com/wwi/R2023b/WebotsView.js"></script>
+    <script src="data_sender.js"></script>
+    <script src="data_receiver.js"></script>
     <script src="setup_viewer.js"></script>
   </body>
 </html>
