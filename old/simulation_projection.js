@@ -8,28 +8,23 @@ class Braintenberg_Movement {
         this.middle_x= this.canvas.width/2 - 12;
         this.middle_y = this.canvas.height/2 - 8;
         // initiate starting position and speed
-        this.x_adjust = () => (this.middle_x + (this.x * this.canvas.width/230) - 10)       // to readjust miro in environment
-        this.y_adjust = () => ((this.middle_y - (this.y * this.canvas.height/250) - 6))
         this.x = 0;
         this.y = 0;
-        this.temperature_gradient = 0;
-        this.temperature_intercept = 0;
-        this.temperature = () => (this.temperature_gradient * this.x) + this.temperature_intercept;
-        this.theta = Math.PI/2;
+        this.theta = 0;
         this.angular_velocity = 0;
         this.speed = 0;
         // settings for the environment
         this.movement_rate = 0; // how often to run
         this.radius = 5;
         this.circle_render = 10; // how round it should be (higher is better)
-        this.canvas.style = "background-image: linear-gradient(to right, blue, red);";
-        this.circle_positions = [];   // position of food
+        this.canvas.style = "background-color: #90EE90;";
+        this.circle_positions = [[30, 30], [-30,30]];   // position of food
         this.food_status = false; // check if food is there or not
         this.redraw_image();
     }
 
     get_data(){
-        var msg = "data," + this.temperature();
+        var msg = "data," + this.x.toString() + "," + this.y.toString() + "," + this.theta.toString() + "," + this.food_status.toString();
         return msg;
     }
 
@@ -55,9 +50,9 @@ class Braintenberg_Movement {
     // redraw a miro to position it around
     redraw_image() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // this.draw_light_intensity();
+        //this.draw_light_intensity();
         this.circle_positions.forEach(position => this.drawCircle(position));
-        this.ctx.drawImage(this.img, this.x_adjust(), this.y_adjust(), 42, 24);
+        this.ctx.drawImage(this.img, this.middle_x + this.x, this.middle_y + this.y, 24, 12);
     }
 
     // draw a circle
@@ -82,7 +77,7 @@ class Braintenberg_Movement {
     move_image() {
         const x_change = this.speed * Math.sin(this.theta + this.angular_velocity);
         const y_change = this.speed * Math.cos(this.theta + this.angular_velocity);
-        if ((((this.x + x_change) >= 100) || ((this.x + x_change) <= -100)) || (((this.y + y_change) >= 100) || ((this.y + y_change) <= -100))){
+        if ((((this.x + x_change) >= this.canvas.width - 25) || ((this.x + x_change) <= 0)) || (((this.y + y_change) >= this.canvas.height - 10) || ((this.y + y_change) <= 0))){
             this.theta += this.angular_velocity;
         }
         else {
@@ -116,12 +111,6 @@ class Braintenberg_Movement {
             }
         }
     }
-    
-    reset(){
-        this.x = 0;
-        this.y = 0;
-        braitenberg_agent.move_image();
-    }
 }
 
 // initialise object
@@ -134,26 +123,15 @@ setInterval(function () {
 }, 1000);
 
 window.addEventListener("message", (event) => {
-    console.log(event.data);
-    if (event.data == "reset") {
-        braitenberg_agent.reset();
-    } else {
-        const command = event.data.split(",")[0];
-        const args = parseFloat(event.data.split(",")[1]);
-        if (command == "turn_speed") {
-            braitenberg_agent.set_turn_speed(args);
-        }
-        else if (command == "speed") {
-            braitenberg_agent.set_speed(args);
-        }
-        else if (command == "control_time") {
-            braitenberg_agent.movement_rate = args;
-        }
-        else if (command == "temperature_gradient") {
-            braitenberg_agent.temperature_gradient = args;
-        }
-        else if (command == "temperature_intercept") {
-            braitenberg_agent.temperature_intercept = args;
-        }
+    const command = event.data.split(",")[0];
+    const args = parseFloat(event.data.split(",")[1]);
+    if (command == "turn_speed") {
+        braitenberg_agent.set_turn_speed(args);
+    }
+    else if (command == "speed") {
+        braitenberg_agent.set_speed(args);
+    }
+    else if (command == "control_time") {
+        braitenberg_agent.movement_rate = args;
     }
 });
