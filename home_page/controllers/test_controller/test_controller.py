@@ -5,6 +5,4 @@ robot = Robot()
 while robot.step(32) != -1:
 
     text = robot.wwiReceiveText()
-
-    if text is not None:
-        print("Hello World!: ", text)
+    print("Hello World!: " + text)
