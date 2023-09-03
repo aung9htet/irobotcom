@@ -28,9 +28,10 @@ int main(int argc, char **argv) {
   // wb_keyboard_enable(TIME_STEP);
   // wb_motor_set_velocity(motor_left, 0);
   // wb_motor_set_velocity(motor_right, 0);
+  const char *message;
 
   while (wb_robot_step(TIME_STEP) != -1) {
-    const char *message;
+    
     while ((message = wb_robot_wwi_receive_text())) {
       
       printf("Received message from window: %s\n", message);
@@ -39,9 +40,10 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));   // Initialization, should only be called once.
     int r = rand() % 10; 
-    if( r > 7 )
+    if( r > 7 ){
+      printf("Sending message.\n");
       wb_robot_wwi_send_text("Message from the robot");
-
+    }
     
     // wb_motor_set_velocity(motor_left, left_speed);
     // wb_motor_set_velocity(motor_right, right_speed);
