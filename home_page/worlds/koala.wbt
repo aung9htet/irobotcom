@@ -234,5 +234,5 @@ Koala {
   translation 1 0 0
   rotation 0 0 1 3.14159
   name "koala"
-  controller "test_controller"
+  controller "self_regulation"
 }

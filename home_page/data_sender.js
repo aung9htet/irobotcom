@@ -1,4 +1,10 @@
 
+import RobotWindow from 'https://cyberbotics.com/wwi/R2023b/RobotWindow.js';
+
+window.onload = function() {
+    window.robotWindow = new RobotWindow();
+    console.log(window.robotWindow)
+}
 
 function turn_speed( val ){
     console.log("Turn speed");

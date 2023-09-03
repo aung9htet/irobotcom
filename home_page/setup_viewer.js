@@ -22,19 +22,43 @@ function init() {
   console.log("Initializing viewer");
 }
 
-function connect() {
+
+server = "";
+
+function connect(){
   const ipInput = 'http://localhost:1999/session?url=https://github.com/aung9htet/irobotcom/tree/main/home_page/worlds/koala.wbt'
+  const Http = new XMLHttpRequest();
+  const url= ipInput;
+  Http.open("GET", url);
+  Http.send();
+
+  Http.onreadystatechange = function() {
+    console.log("Server: " + Http.responseText + "(" + this.readyState + ")")
+
+    if( this.readyState == 4 ){
+      server = Http.responseText
+      connectToServer(ipInput)
+    }
+  }
+}
+
+function connectToServer( server ) {
+  
   const defaultThumbnail = 'https://cyberbotics.com/wwi/R2023b/images/loading/default_thumbnail.png';
   const streamingMode = 'x3d' //x3d or mjpeg
   const webotsView = document.getElementsByTagName('webots-view')[0];
   const broadcast = false
   webotsView.onready = onConnect;
   webotsView.ondisconnect = onDisconnect;
-  webotsView.connect(ipInput, streamingMode, broadcast, mobileDevice, -1, defaultThumbnail);
+  
+  webotsView.connect(server, streamingMode, broadcast, mobileDevice, -1, defaultThumbnail);
+  
 }
 
 function onConnect() {
-  console.log("Connection successful")
+  const webotsView = document.getElementsByTagName('webots-view')[0];
+  
+  console.log("Connection successful" + webotsView.toolbar)
   // connectButton.value = 'Disconnect';
   // connectButton.onclick = disconnect;
   // connectButton.disabled = false;
