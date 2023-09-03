@@ -13,6 +13,8 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define TIME_STEP 10
 
@@ -23,9 +25,9 @@ static void init_devices() {
 int main(int argc, char **argv) {
   wb_robot_init();
   init_devices();
-  wb_keyboard_enable(TIME_STEP);
-  wb_motor_set_velocity(motor_left, 0);
-  wb_motor_set_velocity(motor_right, 0);
+  // wb_keyboard_enable(TIME_STEP);
+  // wb_motor_set_velocity(motor_left, 0);
+  // wb_motor_set_velocity(motor_right, 0);
 
   while (wb_robot_step(TIME_STEP) != -1) {
     const char *message;
@@ -33,7 +35,7 @@ int main(int argc, char **argv) {
       
       printf("Received message from window: %s\n", message);
     }
-    double time = wb_robot_get_time();
+    //double time = wb_robot_get_time();
 
     srand(time(NULL));   // Initialization, should only be called once.
     int r = rand() % 10; 
