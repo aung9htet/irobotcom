@@ -36,14 +36,12 @@ int main(int argc, char **argv) {
       
       printf("Received message from window: %s\n", message);
     }
-    //double time = wb_robot_get_time();
+    double rtime = wb_robot_get_time();
 
-    srand(time(NULL));   // Initialization, should only be called once.
-    int r = rand() % 10; 
-    if( r > 7 ){
-      printf("Sending message.\n");
-      wb_robot_wwi_send_text("Message from the robot");
-    }
+    char s[200];
+    sprintf(s, "data,%f", rtime);
+    
+    wb_robot_wwi_send_text(s);
     
     // wb_motor_set_velocity(motor_left, left_speed);
     // wb_motor_set_velocity(motor_right, right_speed);
