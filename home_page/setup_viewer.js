@@ -79,7 +79,7 @@ window.addEventListener("mouseup", (event) => {
 });
 
 window.addEventListener("message", (event) => {
-  console.log("Data received parent: " + event.data);
+  // console.log("Data received parent: " + event.data);
   if (event.data == "reset") {
     connect();
   } else if( event.data == "start"){

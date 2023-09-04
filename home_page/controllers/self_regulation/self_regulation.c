@@ -110,10 +110,14 @@ int main(int argc, char **argv) {
         int val = message[6] - '0';   
         wb_motor_set_velocity(left_motor, val);
         wb_motor_set_velocity(right_motor, val);
-       }else if(strcmp(command, "gradi")){
+       }else if(strcmp(command, "gradi") == 0){
          double ngrad = extractDouble( message );  
-         
+         gradient = 100*ngrad;
          printf("Changing gradient: %f\n", ngrad);
+       }else if(strcmp(command, "inter") == 0){
+         double ninter = extractDouble( message );  
+         intercept = ninter;
+         printf("Changing intercept: %f\n", ninter);
        }
     }
     // double rtime = wb_robot_get_time();
