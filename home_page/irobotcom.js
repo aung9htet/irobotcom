@@ -40,7 +40,7 @@ window.addEventListener("message", (event) => {
   if( command == "data" ){
     var temperature = (event.data.split(",")[1]);
     (async function() {
-      console.log("Calling callback");
+      
       const result = await google.colab.kernel.invokeFunction(
         'notebook.Run', // The callback name.
         [temperature], // The arguments.
