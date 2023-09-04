@@ -17,6 +17,7 @@ window.addEventListener("message", (event) => {
     window.robotWindow.send(event.data);
   }else if(event.data.indexOf("temperature_gradient") > -1){
     let val = event.data.split(",")[1]
+    console.log("gradi," + val)
     window.robotWindow.send("gradi," + val);
   }else if(event.data.indexOf("temperature_intercept") > -1){
     let val = event.data.split(",")[1]
