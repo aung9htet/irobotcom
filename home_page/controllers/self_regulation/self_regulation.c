@@ -54,6 +54,8 @@ double extractDouble(const char *msg){
     valc[i - 6] = msg[i];
 
   valc[l - 6] = '\0';
+  
+  printf("valc: %s\n", valc);
 
   return atof(valc);
 }
