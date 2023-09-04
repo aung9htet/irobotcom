@@ -10,4 +10,6 @@ build/release/self_regulation.o: self_regulation.c \
  /usr/local/webots/include/controller/c/webots/robot.h \
  /usr/local/webots/include/controller/c/webots/nodes.h \
  /usr/local/webots/include/controller/c/webots/touch_sensor.h \
- /usr/local/webots/include/controller/c/webots/gps.h
+ /usr/local/webots/include/controller/c/webots/gps.h \
+ /usr/local/webots/include/controller/c/webots/supervisor.h \
+ /usr/local/webots/include/controller/c/webots/contact_point.h
