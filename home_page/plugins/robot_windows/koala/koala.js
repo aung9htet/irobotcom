@@ -13,7 +13,7 @@ window.onload = function() {
 
 
 window.addEventListener("message", (event) => {
-  // console.log("Data received koala: " + event.data);
+  console.log("Data received koala: " + event.data);
   window.robotWindow.send(event.data);
 });
 
