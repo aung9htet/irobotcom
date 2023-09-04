@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
       char *val = strtok(NULL, ",");
       int vald = atoi(val);
       free(token);
-      print("val: %d\n", vald);
+      printf("val: %d\n", vald);
 
       wb_motor_set_velocity(motor_left, 0);
       wb_motor_set_velocity(motor_right, 0);
