@@ -34,27 +34,34 @@ static void init_devices() {
 
 
 int main(int argc, char **argv) {
+  printf("Initializing robot");
   wb_robot_init();
+    printf("Initializing devices");
   init_devices();
   // wb_keyboard_enable(TIME_STEP);
  
   const char *message;
+    printf("Initializing simulation");
 
   while (wb_robot_step(TIME_STEP) != -1) {
     
     while ((message = wb_robot_wwi_receive_text())) {
+      printf("Processing message");
       char* token = strdup(message);
       char * command = strtok(token, ",");
       char *val = strtok(NULL, ",");
       int vald = atoi(val);
-      free(token);
+      
       printf("val: %d\n", vald);
-
+      printf("val: %s\n", command);
+        printf("Activating motors");
+      free(token);
       wb_motor_set_velocity(left_motor, 1);
       wb_motor_set_velocity(right_motor, 0);
     }
     double rtime = wb_robot_get_time();
 
+      printf("Sending data");
     char s[200];
     sprintf(s, "data,%f", rtime);    
     wb_robot_wwi_send_text(s);
