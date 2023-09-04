@@ -47,43 +47,39 @@ double getCurrentTemperature(){
 }
 
 double extractDouble(const char *msg){
-  return 0.0;
+  int l = strlen(msg);
+  char valc[10];
+
+  for( int i = 6; i < l; i++ )
+    valc[i - 6] = msg[i];
+
+  valc[l - 6] = '\0';
+
+  return atof(valc);
 }
 
-void paintGradient( WbFieldRef children_field  ){
-  
+
+void coloredBalls( WbFieldRef children_field, double y ){
   for( int i = 0; i < 10; i ++ ){
     char com[50];
     char ball_name[10];
     double x = 2.0*((float) i)/10.0 - 1;
     
     sprintf( ball_name, "BALL%d", i );
-    sprintf( com, "DEF BALL%d Ball { translation %f 1 0 }",i, x);  
+    sprintf( com, "DEF BALL%d Ball { translation %.1f %.1f 0 }",i, x, y);  
     wb_supervisor_field_import_mf_node_from_string(children_field, -1, com);
     WbNodeRef ball_node = wb_supervisor_node_get_from_def(ball_name);
     WbFieldRef color_field = wb_supervisor_node_get_field(ball_node, "color");
     const double red_color[3] = {(x + 1)/2.0, 0, (x + 1)/2.0};
     wb_supervisor_field_set_sf_color(color_field, red_color);
   }
-  
-  for( int i = 0; i < 10; i ++ ){
-    char com[50];
-    char ball_name[10];
-    double x = 2.0*((float) i)/10.0 - 1;
-    
-    sprintf( ball_name, "BALL%d%d", i, i );
-    sprintf( com, "DEF BALL%d%d Ball { translation %f -1 0 }",i,i, x);  
-    wb_supervisor_field_import_mf_node_from_string(children_field, -1, com);
-    WbNodeRef ball_node = wb_supervisor_node_get_from_def(ball_name);
-    WbFieldRef color_field = wb_supervisor_node_get_field(ball_node, "color");
-    const double red_color[3] = {(x + 1)/2.0, 0, (x + 1)/2.0};
-    wb_supervisor_field_set_sf_color(color_field, red_color);
-  }
-  
-  
-  
 }
 
+void paintGradient( WbFieldRef children_field  ){
+  
+  coloredBalls( children_field, 1.0 );
+  coloredBalls( children_field, -1.0 );  
+}
 
 int main(int argc, char **argv) {
   wb_robot_init();

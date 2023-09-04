@@ -13,8 +13,14 @@ window.onload = function() {
 
 
 window.addEventListener("message", (event) => {
-  console.log("Data received koala: " + event.data);
-  console.log("Recepcion de datos: " + event.data);
-  window.robotWindow.send(event.data);
+  if( event.data.indexOf("speed") > -1){
+    window.robotWindow.send(event.data);
+  }else if(event.data.indexOf("temperature_gradient") > -1){
+    val = event.data.split(",")[1]
+    window.robotWindow.send("gradi," + val);
+  }else if(event.data.indexOf("temperature_intercept") > -1){
+    val = event.data.split(",")[1]
+    window.robotWindow.send("inter," + val);
+  }
 });
 
