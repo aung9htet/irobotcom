@@ -17,24 +17,37 @@
 #include <stdlib.h>
 
 #define TIME_STEP 10
+static WbDeviceTag motor_left;
+static WbDeviceTag motor_right;
+
+
 
 static void init_devices() {
-  printf("Initializing devices\n");
+  motor_left = wb_robot_get_device("motor.left");
+  motor_right = wb_robot_get_device("motor.right");
 }
+
+
 
 int main(int argc, char **argv) {
   wb_robot_init();
   init_devices();
   // wb_keyboard_enable(TIME_STEP);
-  // wb_motor_set_velocity(motor_left, 0);
-  // wb_motor_set_velocity(motor_right, 0);
+ 
   const char *message;
 
   while (wb_robot_step(TIME_STEP) != -1) {
     
     while ((message = wb_robot_wwi_receive_text())) {
-      
-      printf("Received message from window: %s\n", message);
+      char* token = strdup(message);
+      char * command = strtok(token, ",");
+      char *val = strtok(NULL, ",");
+      int vald = atoi(val);
+      free(token);
+      print("val: %d\n", vald);
+
+      wb_motor_set_velocity(motor_left, 0);
+      wb_motor_set_velocity(motor_right, 0);
     }
     double rtime = wb_robot_get_time();
 
