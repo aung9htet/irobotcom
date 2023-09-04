@@ -47,15 +47,15 @@ int main(int argc, char **argv) {
     
     while ((message = wb_robot_wwi_receive_text())) {
       printf("Processing message");
-      char* token = strdup(message);
-      char * command = strtok(token, ",");
-      char *val = strtok(NULL, ",");
-      int vald = atoi(val);
+      // char* token = strdup(message);
+      // char * command = strtok(token, ",");
+      // char *val = strtok(NULL, ",");
+      // int vald = atoi(val);
       
-      printf("val: %d\n", vald);
-      printf("val: %s\n", command);
-        printf("Activating motors");
-      free(token);
+      // printf("val: %d\n", vald);
+      // printf("val: %s\n", command);
+        // printf("Activating motors");
+      // feree(token);
       wb_motor_set_velocity(left_motor, 1);
       wb_motor_set_velocity(right_motor, 0);
     }
