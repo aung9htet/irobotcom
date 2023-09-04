@@ -59,7 +59,9 @@ function pause(){
 }
 
 function sendToRobot( message ){
-
+  console.log("Sending to robot!!!")
+  const webotsView = document.getElementsByTagName('webots-view')[0];
+  webotsView.toolbar.robotWindows[0].frame.contentWindow.postMessage(message);
 }
 
 init();
@@ -78,14 +80,16 @@ window.addEventListener("mouseup", (event) => {
 });
 
 window.addEventListener("message", (event) => {
-  console.log("Data received: " + event.data);
+  console.log("Data received parent: " + event.data);
   if (event.data == "reset") {
     connect();
   } else if( event.data == "start"){
     start()
   } else if( event.data == "pause"){
     pause()
-  } else{
+  } else if( event.data.indexOf("data") > -1){
+    parent.postMessage(event.data, "*");   
+  }else{
       sendToRobot( event.data );
   }
 });

@@ -5,6 +5,7 @@ window.onload = function() {
 
   window.robotWindow.receive = function(message, robot) { 
     // Receiving temperature and relaying it
+    console.log("Received at robowindow: " + message)
     parent.postMessage(message, "*");   
   }
   window.robotWindow.send("configure");
@@ -12,7 +13,7 @@ window.onload = function() {
 
 
 window.addEventListener("message", (event) => {
-  console.log("Data received: " + event.data);
+  console.log("Data received koala: " + event.data);
   window.robotWindow.send(event.data);
 });
 

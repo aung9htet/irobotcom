@@ -39,8 +39,7 @@ int main(int argc, char **argv) {
     double rtime = wb_robot_get_time();
 
     char s[200];
-    sprintf(s, "data,%f", rtime);
-    
+    sprintf(s, "data,%f", rtime);    
     wb_robot_wwi_send_text(s);
     
     // wb_motor_set_velocity(motor_left, left_speed);

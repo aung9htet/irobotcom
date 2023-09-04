@@ -14,7 +14,7 @@ class DataStorage{
 // send messages over to iframe
 const listenerSpeedChannel = new BroadcastChannel('speed');
 listenerSpeedChannel.onmessage = (msg) => {
-  webotsView.toolbar.robotWindows[0].frame.contentWindow.postMessage("speed," + msg.data, "*");
+  document.getElementById("simulator").contentWindow.postMessage("speed," + msg.data, "*");
 };
 const listenerGradientChannel = new BroadcastChannel('temperature_gradient');
 listenerGradientChannel.onmessage = (msg) => {
@@ -40,6 +40,7 @@ window.addEventListener("message", (event) => {
   if( command == "data" ){
     var temperature = (event.data.split(",")[1]);
     (async function() {
+      console.log("Calling callback");
       const result = await google.colab.kernel.invokeFunction(
         'notebook.Run', // The callback name.
         [temperature], // The arguments.
