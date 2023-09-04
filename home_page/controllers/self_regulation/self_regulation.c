@@ -10,6 +10,8 @@
 #include <webots/plugins/robot_window/default.h>
 #include <webots/robot.h>
 #include <webots/touch_sensor.h>
+#include <webots/gps.h>
+
 
 #include <math.h>
 #include <stdio.h>
@@ -34,32 +36,22 @@ static void init_devices() {
 
 
 int main(int argc, char **argv) {
-  printf("Initializing robot");
   wb_robot_init();
-    printf("Initializing devices");
   init_devices();
   // wb_keyboard_enable(TIME_STEP);
  
   const char *message;
-    printf("Initializing simulation");
-
   while (wb_robot_step(TIME_STEP) != -1) {
     
     while ((message = wb_robot_wwi_receive_text())) {
-      printf("Processing message");
       int val = message[6] - '0';
-      // int vald = atoi(val);
       
-      printf("val: %d\n", val);
-      // printf("val: %s\n", command);
-        // printf("Activating motors");
-      // feree(token);
-      wb_motor_set_velocity(left_motor, 1);
-      wb_motor_set_velocity(right_motor, 0);
+      
+      wb_motor_set_velocity(left_motor, val);
+      wb_motor_set_velocity(right_motor, val);
     }
     double rtime = wb_robot_get_time();
 
-      printf("Sending data");
     char s[200];
     sprintf(s, "data,%f", rtime);    
     wb_robot_wwi_send_text(s);
