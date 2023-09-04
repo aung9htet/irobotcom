@@ -17,14 +17,18 @@
 #include <stdlib.h>
 
 #define TIME_STEP 10
-static WbDeviceTag motor_left;
-static WbDeviceTag motor_right;
+static WbDeviceTag left_motor;
+static WbDeviceTag right_motor;
 
 
 
 static void init_devices() {
-  motor_left = wb_robot_get_device("motor.left");
-  motor_right = wb_robot_get_device("motor.right");
+  left_motor = wb_robot_get_device("left wheel motor");
+  right_motor = wb_robot_get_device("right wheel motor");
+  wb_motor_set_position(left_motor, INFINITY);
+  wb_motor_set_position(right_motor, INFINITY);
+  wb_motor_set_velocity(left_motor, 0.0);
+  wb_motor_set_velocity(right_motor, 0.0);
 }
 
 
@@ -46,8 +50,8 @@ int main(int argc, char **argv) {
       free(token);
       printf("val: %d\n", vald);
 
-      wb_motor_set_velocity(motor_left, 0);
-      wb_motor_set_velocity(motor_right, 0);
+      wb_motor_set_velocity(left_motor, 1);
+      wb_motor_set_velocity(right_motor, 0);
     }
     double rtime = wb_robot_get_time();
 
