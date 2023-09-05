@@ -20,7 +20,7 @@ function init() {
 
 
 function connect() {
-  const ipInput = 'http://localhost:1999/session?url=https://github.com/aung9htet/irobotcom/tree/main/home_page/worlds/koala.wbt'
+  const ipInput = 'http://127.0.0.1:1999/session?url=https://github.com/aung9htet/irobotcom/tree/main/home_page/worlds/koala.wbt'
   const defaultThumbnail = 'https://cyberbotics.com/wwi/R2023b/images/loading/default_thumbnail.png';
   const streamingMode = 'x3d' //x3d or mjpeg
   const webotsView = document.getElementsByTagName('webots-view')[0];
