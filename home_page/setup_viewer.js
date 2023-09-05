@@ -31,7 +31,7 @@ function connect() {
   webotsView.showPlay = false
   webotsView.showQuit = false
   webotsView.showReload = false
-  webotsView.showReset = false
+  webotsView.showReset = true
   webotsView.showRobotWindow = false
   webotsView.showWorldSelection = false
 }

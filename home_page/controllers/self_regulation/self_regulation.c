@@ -90,8 +90,8 @@ int main(int argc, char **argv) {
   WbNodeRef root_node = wb_supervisor_node_get_root();
   WbFieldRef children_field = wb_supervisor_node_get_field(root_node, "children");
   // wb_keyboard_enable(TIME_STEP);
-  wb_motor_set_velocity(left_motor, 1);
-  wb_motor_set_velocity(right_motor, 1);
+  wb_motor_set_velocity(left_motor, 0);
+  wb_motor_set_velocity(right_motor, 0);
  
   const char *message;
   char command[6];
@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
       command[5] = '\0';
       
       if( strcmp(command, "speed") == 0){    
-        int val = message[6] - '0';   
+        double val = extractDouble( message );    
         wb_motor_set_velocity(left_motor, val);
         wb_motor_set_velocity(right_motor, val);
        }else if(strcmp(command, "gradi") == 0){
